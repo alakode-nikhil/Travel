@@ -1,7 +1,7 @@
 from .models import *
 from rest_framework import serializers
 
-class RecipeSerializer(serializers.ModelSerializer):
+class DestinationSerializer(serializers.ModelSerializer):
 
     img  = serializers.ImageField(required = False)
  

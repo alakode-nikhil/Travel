@@ -13,7 +13,7 @@ class Destination(models.Model):
         (6,'Windy')
     ]
     weather = models.IntegerField(choices=WEATHER_CHOICES)
-    img = models.ImageField(upload_to='recipes/')
+    img = models.ImageField(upload_to='destinations/')
     state = models.CharField(max_length=250)
     district = models.CharField(max_length=250)
     map_url = models.URLField(max_length=2000, blank=True)
