@@ -7,7 +7,7 @@ class Destination(models.Model):
     WEATHER_CHOICES = [
         (1, 'Sunny'),
         (2,'Rainy'),
-        (3,'Clody'),
+        (3,'Cloudy'),
         (4,'Foggy'),
         (5,'Snowy'),
         (6,'Windy')

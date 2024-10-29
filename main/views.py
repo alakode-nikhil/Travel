@@ -32,7 +32,7 @@ class SearchDestinationApi(generics.ListAPIView):
     def get_queryset(self):
         name = self.kwargs.get('name')
         if name:
-            return Destination.objects.filter(name__icontains = name)
+            return Destination.objects.filter(place_name__icontains = name)
         
         return Destination.objects.all()
     
