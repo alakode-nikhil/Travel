@@ -52,7 +52,7 @@ def index(request):
     if request.method =='POST':
         search = request.POST['search']
 
-        api_url = f'http:127.0.0.1:8000/api/search-destination/{search}/'
+        api_url = f'http://127.0.0.1:8000/api/search-destination/{search}/'
 
         try:
             response = requests.get(api_url)
@@ -188,3 +188,16 @@ def create_destination(request):
         form = DestinationForm
         
     return render(request, 'create-destination.html', {'form': form})
+
+def delete_destination(request, id):
+
+    api_url = f'http://127.0.0.1:8000/api/delete-destination/{id}/'
+    response = requests.delete(api_url)
+
+    if response.status_code == 200:
+        print(f'Item with id {id} successfully deleted')
+
+    else:
+        print(f'Fail to delete item {id} {response.status_code}')
+
+    return redirect('/')

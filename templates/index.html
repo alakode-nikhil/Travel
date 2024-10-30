@@ -10,6 +10,11 @@
         </ol>
     </nav>
 </div><!-- End Page Title -->
+<form class="d-flex m-2" role="search" method="post">
+    {% csrf_token %}
+    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="search">
+    <button class="btn btn-primary" type="submit">Search</button>
+</form>
 {% if data %}
     <div class="container">
         <div class="inner_div">
@@ -41,13 +46,13 @@
                                 {% endif %}  
                                 <p class="card-text">{{data.description}}</p>
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <a href="{% url 'fetch-destination' data.id %}" class="btn btn-primary">Details</a>
-                            </div>
-                            <div class="col-md-6">
-                                <a href="{% url 'update-destination' data.id %}" class="btn btn-success">Update</a>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <a href="{% url 'fetch-destination' data.id %}" class="btn btn-primary">Details</a>
+                                </div>
+                                <div class="col-md-6">
+                                    <a href="{% url 'update-destination' data.id %}" class="btn btn-success">Update</a>
+                                </div>
                             </div>
                         </div>
                     </div>

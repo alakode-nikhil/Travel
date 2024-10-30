@@ -25,6 +25,7 @@
                 <a href="{{destination.map_url}}" class="card-text" style="text-decoration-line: none;">Map Link</a>
                 <p class="card-text">Weather: {{destination.weather_display}}</p>
                 <p class="card-text">{{destination.description}}</p>
+                <a href="{% url 'delete-destination' destination.id %}" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this destination?');">Delete</a>
             </div>
         </div>
     </div>

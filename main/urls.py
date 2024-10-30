@@ -10,5 +10,6 @@ urlpatterns = [
     path('', index,name='home-destination'), 
     path('fetch-destination/<int:id>/', fetch_destination,name='fetch-destination'),
     path('update-destination/<int:id>/', update_destination,name='update-destination'), 
-    path('create-destination/', create_destination, name='create-destination')
+    path('create-destination/', create_destination, name='create-destination'),
+    path('delete-destination/<int:id>', delete_destination, name='delete-destination'),
 ]
