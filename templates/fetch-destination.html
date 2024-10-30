@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<div class="pagetitle ms-2">
+    <h1>{{destination.place_name}}</h1>
+    <nav>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'home-destination' %}">Travel Home</a></li>
+            <li class="breadcrumb-item active">{{destination.place_name}}</li>
+        </ol>
+    </nav>
+</div><!-- End Page Title -->
+<div class="container mt-2">
+    <div class="inner_div">
+        <div class="card bg-body rounded shadow-sm align-content-center">
+            <img src="{{destination.img}}" class="card-img-top ps-2 pt-2" alt="...">
+            <div class="card-body">
+                <h5 class="card-title text-center">{{destination.place_name}}</h5>
+                <p class="card-text">State: {{destination.state}}</p>
+                <p class="card-text">District: {{destination.district}}</p>
+                <a href="{{destination.map_url}}" class="card-text" style="text-decoration-line: none;">Map Link</a>
+                <p class="card-text">Weather: {{destination.weather_display}}</p>
+                <p class="card-text">{{destination.description}}</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

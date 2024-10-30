@@ -2,6 +2,14 @@
 {% load static %}
 {% block content %}
 
+<div class="pagetitle ms-2">
+    <h1>Travel Home</h1>
+    <nav>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'home-destination' %}">Home</a></li>
+        </ol>
+    </nav>
+</div><!-- End Page Title -->
 {% if data %}
     <div class="container">
         <div class="inner_div">
@@ -33,10 +41,10 @@
                         </div>
                         <div class="row">
                             <div class="col-md-6">
-                                <a href="#" class="btn btn-dark">Details</a>
+                                <a href="{% url 'fetch-destination' data.id %}" class="btn btn-primary">Details</a>
                             </div>
                             <div class="col-md-6">
-                                <a href="#" class="btn btn-secondary">Update</a>
+                                <a href="#" class="btn btn-success">Update</a>
                             </div>
                         </div>
                     </div>
@@ -74,7 +82,7 @@
                         </div>
                         <div class="row ps-2 pb-2">
                             <div class="col-md-6">
-                                <a href="#" class="btn btn-primary">Details</a>
+                                <a href="{% url 'fetch-destination' data.id %}" class="btn btn-primary">Details</a>
                             </div>
                             <div class="col-md-6">
                                 <a href="#" class="btn btn-success">Update</a>

@@ -99,3 +99,26 @@ def index(request):
         
         except requests.RequestException as e:
             return render(request, 'index.html', {'error_message':f'Error {e}'})
+        
+def fetch_destination(request, id):
+
+    api_url = f'http://127.0.0.1:8000/api/list-destination/{id}/'
+    response = requests.get(api_url)
+    if response.status_code == 200:
+        data = response.json()
+        data['weather_display'] = get_weather_display(data.get('weather'))
+        return render(request, 'fetch-destination.html', {'destination':data})
+    
+    return render(request,'fetch_destination.html')
+
+#Convert Weather code to human understandable text!
+def get_weather_display(weather_code):
+    WEATHER_CHOICES = {
+        1: 'Sunny',
+        2: 'Rainy',
+        3: 'Cloudy',
+        4: 'Foggy',
+        5: 'Snowy',
+        6: 'Windy'
+    }
+    return WEATHER_CHOICES.get(weather_code, "Unknown")
