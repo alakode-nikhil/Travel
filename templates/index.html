@@ -1,0 +1,115 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+{% if data %}
+    <div class="container">
+        <div class="inner_div">
+            <div class="row">
+                {% for data in data %}
+                    <div class="col-md-4">
+                        <div class="card mt-2">
+                            <img src="{{data.img}}" class="card-img-top" alt="...">
+                            <div class="card-body">
+                                <div class="card-title text-center">{{data.place_name}}</div>
+                                <p class="card-text">State: {{data.state}}</p>
+                                <p class="card-text">District: {{data.district}}</p>
+                                <a href="{{data.map_url}}" class="card-text" style="text-decoration-line: none;">Map Link</a>
+                                {% if data.weather == 1 %}
+                                    <p class="card-text">Weather: Sunny</p>
+                                {% elif data.weather == 2 %}
+                                    <p class="card-text">Weather: Rainy</p>
+                                {% elif data.weather == 3 %}
+                                    <p class="card-text">Weather: Cloudy</p>
+                                {% elif data.weather == 4 %}
+                                    <p class="card-text">Weather: Foggy</p>
+                                {% elif data.weather == 5 %}
+                                    <p class="card-text">Weather: Snowy</p>
+                                {% else %}
+                                    <p class="card-text">Weather: Windy</p>
+                                {% endif %}  
+                                <p class="card-text">{{data.description}}</p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <a href="#" class="btn btn-dark">Details</a>
+                            </div>
+                            <div class="col-md-6">
+                                <a href="#" class="btn btn-secondary">Update</a>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% else %}
+<div class="container mt-2">
+    <div class="inner_div">
+        <div class="row">
+            {% for data in destinations.object_list %}
+                <div class="col-md-4">
+                    <div class="card bg-body rounded shadow-sm">
+                        <img src="{{data.img}}" class="card-img-top ps-2 pt-2" alt="...">
+                        <div class="card-body">
+                            <h5 class="card-title text-center">{{data.place_name}}</h5>
+                            <p class="card-text">State: {{data.state}}</p>
+                            <p class="card-text">District: {{data.district}}</p>
+                            <a href="{{data.map_url}}" class="card-text" style="text-decoration-line: none;">Map Link</a>
+                            {% if data.weather == 1 %}
+                                <p class="card-text">Weather: Sunny</p>
+                            {% elif data.weather == 2 %}
+                                <p class="card-text">Weather: Rainy</p>
+                            {% elif data.weather == 3 %}
+                                <p class="card-text">Weather: Cloudy</p>
+                            {% elif data.weather == 4 %}
+                                <p class="card-text">Weather: Foggy</p>
+                            {% elif data.weather == 5 %}
+                                <p class="card-text">Weather: Snowy</p>
+                            {% else %}
+                                <p class="card-text">Weather: Windy</p>
+                            {% endif %}   
+                            <p class="card-text">{{data.description}}</p>
+                        </div>
+                        <div class="row ps-2 pb-2">
+                            <div class="col-md-6">
+                                <a href="#" class="btn btn-primary">Details</a>
+                            </div>
+                            <div class="col-md-6">
+                                <a href="#" class="btn btn-success">Update</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+<div class="container mt-2 ms-2">
+    <nav aria-label="Page navigation example">
+        <ul class="pagination">
+            {% if destinations.has_previous %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{destinations.previous_page_number}}" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+            </li>
+            {% endif %}
+            {% for num in destinations.paginator.page_range %}
+            <li class="page-item {% if destinations.number == num %} activate {% endif %}">
+                <a class="page-link" href="?page={{num}}">{{num}}</a></li>
+            {% endfor %}
+            <li class="page-item">
+                {% if destinations.has_next %}
+                <a class="page-link" href="?page={{destinations.next_page_number}}" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+            </li>
+            {% endif %}
+        </ul>
+    </nav> <!--Pagination End-->
+</div>
+{% endif %}
+
+{% endblock %}
