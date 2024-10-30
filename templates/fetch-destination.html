@@ -14,6 +14,9 @@
 <div class="container mt-2">
     <div class="inner_div">
         <div class="card bg-body rounded shadow-sm align-content-center">
+            {% for msg in messages %}
+                <p class="card-text">{{msg}}</p>
+            {% endfor %}
             <img src="{{destination.img}}" class="card-img-top ps-2 pt-2" alt="...">
             <div class="card-body">
                 <h5 class="card-title text-center">{{destination.place_name}}</h5>

@@ -13,10 +13,13 @@
 {% if data %}
     <div class="container">
         <div class="inner_div">
+            {% for msg in messages %}
+                <p class="card-text">{{msg}}</p>
+            {% endfor %}
             <div class="row">
                 {% for data in data %}
                     <div class="col-md-4">
-                        <div class="card mt-2">
+                        <div class="card mt-2 p-2">
                             <img src="{{data.img}}" class="card-img-top" alt="...">
                             <div class="card-body">
                                 <div class="card-title text-center">{{data.place_name}}</div>
@@ -44,7 +47,7 @@
                                 <a href="{% url 'fetch-destination' data.id %}" class="btn btn-primary">Details</a>
                             </div>
                             <div class="col-md-6">
-                                <a href="#" class="btn btn-success">Update</a>
+                                <a href="{% url 'update-destination' data.id %}" class="btn btn-success">Update</a>
                             </div>
                         </div>
                     </div>
@@ -58,7 +61,7 @@
         <div class="row">
             {% for data in destinations.object_list %}
                 <div class="col-md-4">
-                    <div class="card bg-body rounded shadow-sm">
+                    <div class="card bg-body rounded shadow-sm p-2">
                         <img src="{{data.img}}" class="card-img-top ps-2 pt-2" alt="...">
                         <div class="card-body">
                             <h5 class="card-title text-center">{{data.place_name}}</h5>
@@ -85,7 +88,7 @@
                                 <a href="{% url 'fetch-destination' data.id %}" class="btn btn-primary">Details</a>
                             </div>
                             <div class="col-md-6">
-                                <a href="#" class="btn btn-success">Update</a>
+                                <a href="{% url 'update-destination' data.id %}" class="btn btn-success">Update</a>
                             </div>
                         </div>
                     </div>

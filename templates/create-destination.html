@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<div class="pagetitle ms-2">
+    <h1>Add Destination</h1>
+    <nav>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'home-destination' %}">Home</a></li>
+            <li class="breadcrumb-item active">Add Destination</li>
+        </ol>
+    </nav>
+</div><!-- End Page Title -->
+<div class="container ms-2">
+    {% for msg in messages %}
+    {{msg}}
+    {% endfor %}
+
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        {{ form.as_p}}
+
+        <input type="submit" value="save" class="btn btn-success"/>
+    </form>
+</div>
+
+{% endblock %}

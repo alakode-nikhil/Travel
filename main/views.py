@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from .serializers import *
 from .models import *
 from rest_framework import generics
@@ -8,6 +8,7 @@ from rest_framework import status
 from django.contrib import messages
 import requests
 from django.core.paginator import Paginator, EmptyPage, InvalidPage
+from .forms import *
 
 # Create your views here.
 
@@ -78,7 +79,7 @@ def index(request):
                 data = response.json()
                 original_data = data
 
-                paginator = Paginator(original_data, 10)
+                paginator = Paginator(original_data, 9)
                 page = request.GET.get('page', 1)
 
                 try:
@@ -122,3 +123,68 @@ def get_weather_display(weather_code):
         6: 'Windy'
     }
     return WEATHER_CHOICES.get(weather_code, "Unknown")
+
+def update_destination(request, id):
+    info_url = f'http://127.0.0.1:8000/api/list-destination/{id}/'
+    response = requests.get(info_url)
+    destination = response.json()
+    if request.method == 'POST':
+        place_name = request.POST['place_name']
+        state = request.POST['state']
+        district = request.POST['district']
+        weather = request.POST['weather']
+        map_url = request.POST['map_url']
+        description = request.POST['description']
+        api_url = f'http://127.0.0.1:8000/api/update-destination/{id}/'
+        print(response.status_code)
+
+        data = {
+            'place_name': place_name,
+            'state': state,
+            'district': district,
+            'weather': weather,
+            'map_url':map_url,
+            'description': description
+        }
+
+        files = {'img': request.FILES.get('img')}
+        response = requests.put(api_url, data = data, files = files)
+
+        if response.status_code == 200:
+            messages.success(request, 'Destination updated')
+            return redirect('/')
+        
+        else:
+            messages.error(request, f'Error submitting data to the REST API {response.status_code}')
+
+    return render(request, 'update-destination.html', {'destination':destination})
+
+def create_destination(request):
+    if request.method == 'POST':
+        form = DestinationForm(request.POST, request.FILES)
+
+        if form.is_valid():
+            try:
+                form.save()
+                api_url = 'http://127.0.0.1:8000/api/create-destination/'
+                data = form.cleaned_data
+
+                response = requests.post(api_url, data=data, files = {'img': request.FILES['img']})
+
+                if response.status_code == 400:
+                    messages.success(request, 'Destination Inserted Successfully!')
+                    return redirect('/')
+
+                else:
+                    messages.error(request, f'Error{response.status_code}')
+
+            except requests.RequestException as e:
+                messages.error(request, f'Error during API request {str(e)}')
+
+        else:
+            messages.error(request, 'Invalid Form')
+
+    else:
+        form = DestinationForm
+        
+    return render(request, 'create-destination.html', {'form': form})
