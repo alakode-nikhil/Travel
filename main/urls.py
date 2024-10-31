@@ -12,4 +12,5 @@ urlpatterns = [
     path('update-destination/<int:id>/', update_destination,name='update-destination'), 
     path('create-destination/', create_destination, name='create-destination'),
     path('delete-destination/<int:id>', delete_destination, name='delete-destination'),
+
 ]
