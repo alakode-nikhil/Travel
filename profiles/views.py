@@ -24,3 +24,20 @@ class CreateDistrictApi(generics.ListCreateAPIView):
     serializer_class = DistrictSerializer
     permission_classes = [AllowAny]
 
+#Fetch APIs for dependent dropdown
+class StateByCountryApi(generics.ListAPIView):
+    serializer_class = StateSerializer
+
+    def get_queryset(self):
+        country_id = self.kwargs['country_id']
+        return State.objects.filter(country_id=country_id)
+
+class DistrictByStateApi(generics.ListAPIView):
+    serializer_class = DistrictSerializer
+
+    def get_queryset(self):
+        state_id = self.kwargs['state_id']
+        return District.objects.filter(state_id=state_id)
+    
+#Fetch API end
+
