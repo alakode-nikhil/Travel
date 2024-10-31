@@ -9,14 +9,21 @@ class CountrySerializer(serializers.ModelSerializer):
 
 class StateSerializer(serializers.ModelSerializer):
 
-    country = CountrySerializer()
     class Meta:
         model = State
         fields = '__all__'
 
-class StateSerializer(serializers.ModelSerializer):
+    def validate_country(self, value):
+        if not Country.objects.filter(id=value.id).exists():
+            raise serializers.ValidationError('Country not found')
+        return value
 
-    state = StateSerializer()
+class DistrictSerializer(serializers.ModelSerializer):
     class Meta:
-        model = State
+        model = District
         fields = '__all__'
+
+    def validate_state(self, value):
+        if not State.objects.filter(id=value.id).exists():
+            raise serializers.ValidationError('State not found')
+        return value
