@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<div class="card mx-auto pt-2">
+    <div class="card-body">
+        {% for msg in messages %}
+        {{msg}}
+        {% endfor %}
+        <form method="post">
+            {% csrf_token %}
+            <div class="mb-3">
+                <label for="first_name" class="form-label">First Name</label>
+                <input type="text" class="form-control" name="first_name" id ="first_name" required>
+            </div>
+            <div class="mb-3">
+                <label for="last_name" class="form-label">Last Name</label>
+                <input type="text" class="form-control" name="last_name" id="last_name" required>
+            </div>
+            <div class="mb-3">
+                <label for="username" class="form-label">Username</label>
+                <input type="text" class="form-control" name="username" id="username" required>
+            </div>
+            <div class="mb-3">
+                <label for="country" class="form-label">Country</label>
+                <select class="form-control" name="country" id="country-select" required>
+                    {% for country in countries %}
+                    <option value="{{ country.id }}">{{ country.country_name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="mb-3">
+                <label for="state" class="form-label">State</label>
+                <select id="state-select" name="state" class="form-control" required></select>
+            </div>
+            <div class="mb-3">
+                <label for="district" class="form-label">District</label>
+                <select id="district-select" name="district" class="form-control" required></select>
+            </div>
+            <script>
+                document.getElementById('country-select').addEventListener('change', function() {
+                    const countryId = this.value;
+                    fetch(`/profiles/api/states/${countryId}/`)
+                    .then(response => response.json())
+                    .then(data => {
+                        const stateSelect = document.getElementById('state-select');
+                        stateSelect.innerHTML = '';
+                        data.forEach(state => {
+                            stateSelect.innerHTML += `<option value="${state.id}">${state.state_name}</option>`;
+                        });
+                    });
+                });
+
+                document.getElementById('state-select').addEventListener('change', function() {
+                    const stateId = this.value;
+                    fetch(`/profiles/api/districts/${stateId}/`)
+                    .then(response => response.json())
+                    .then(data => {
+                        const districtSelect = document.getElementById('district-select');
+                        districtSelect.innerHTML = '';
+                        data.forEach(district => {
+                             districtSelect.innerHTML += `<option value="${district.id}">${district.district_name}</option>`;
+                        });
+                    });
+                });
+            </script>
+            <div class="mb-3">
+            <label for="email" class="form-label">Email</label>
+            <input type="email" class="form-control" name="email" id="email" aria-describedby="emailHelp" required>
+            <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+            </div>
+            <div class="mb-3">
+                <label for="pass" class="form-label">Password</label>
+                <input type="password" class="form-control" name="pass" id="pass" required>
+            </div>
+            <div class="mb-3">
+            <label for="cpass" class="form-label">Confirm Password</label>
+            <input type="password" class="form-control" name="cpass" id="cpass" required>
+            </div>
+            <button type="submit" class="btn btn-primary" onclick="regAlert()">Register</button>
+            <a href="{% url 'login' %}" class="btn btn-primary">Login</a>
+        </form>
+    </div> 
+</div>
+{% endblock %}

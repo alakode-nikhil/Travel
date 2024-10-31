@@ -7,4 +7,7 @@ urlpatterns = [
     path('api/create-district/', CreateDistrictApi.as_view(), name='api-create-district'),
     path('api/states/<int:country_id>/', StateByCountryApi.as_view(), name='states-by-country'),
     path('api/districts/<int:state_id>/', DistrictByStateApi.as_view(), name='districts-by-state'),
+    path('register/',register_user, name='register'),
+    path('login/', login_user, name='login'),
+    path('logout/', logout_user, name='logout'),
 ]

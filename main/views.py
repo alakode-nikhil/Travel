@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from .serializers import *
 from .models import *
 from rest_framework import generics
-from rest_framework.permissions import AllowAny
+from rest_framework.permissions import AllowAny, IsAuthenticatedOrReadOnly, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework import status
 from django.contrib import messages
@@ -15,23 +15,27 @@ from .forms import *
 class CreateDestinationApi(generics.ListCreateAPIView):
     queryset = Destination.objects.all()
     serializer_class = DestinationSerializer
-    permission_classes = [AllowAny]
+    permission_classes = [IsAuthenticatedOrReadOnly]
 
 class ListDestinationApi(generics.RetrieveAPIView):
     queryset = Destination.objects.all()
     serializer_class = DestinationSerializer
+    permission_classes = [IsAuthenticatedOrReadOnly]
 
 class UpdateDestinationApi(generics.RetrieveUpdateAPIView):
     queryset = Destination.objects.all()
     serializer_class = DestinationSerializer
+    permission_classes = [IsAuthenticated]
 
 class DeleteDestinationApi(generics.DestroyAPIView):
     queryset = Destination.objects.all()
     serializer_class = DestinationSerializer
+    permission_classes = [IsAuthenticated]
 
 class SearchDestinationApi(generics.ListAPIView):
     queryset = Destination.objects.all()
     serializer_class = DestinationSerializer
+    permission_classes = [IsAuthenticatedOrReadOnly]
 
     def get_queryset(self):
         name = self.kwargs.get('name')
@@ -154,6 +158,10 @@ def update_destination(request, id):
             messages.success(request, 'Destination updated')
             return redirect('/')
         
+        elif response.status_code == 403:
+            messages.info(request, 'You are not logged in, Please log in')
+            return redirect('login')
+        
         else:
             messages.error(request, f'Error submitting data to the REST API {response.status_code}')
 
@@ -174,7 +182,11 @@ def create_destination(request):
                 if response.status_code == 400:
                     messages.success(request, 'Destination Inserted Successfully!')
                     return redirect('/')
-
+                
+                elif response.status_code == 403:
+                    messages.info(request, 'You are not logged in, Please log in')
+                    return redirect('login')
+                
                 else:
                     messages.error(request, f'Error{response.status_code}')
 
@@ -196,6 +208,10 @@ def delete_destination(request, id):
 
     if response.status_code == 200:
         print(f'Item with id {id} successfully deleted')
+
+    elif response.status_code == 403:
+            messages.info(request, 'You are not logged in, Please log in')
+            return redirect('login')
 
     else:
         print(f'Fail to delete item {id} {response.status_code}')

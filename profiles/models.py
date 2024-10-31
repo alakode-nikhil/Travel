@@ -23,7 +23,7 @@ class District(models.Model):
     def __str__(self) -> str:
         return self.district_name
     
-class Porfile(models.Model):
+class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     country = models.ForeignKey(Country, on_delete=models.CASCADE)
     state = models.ForeignKey(State, on_delete=models.CASCADE)

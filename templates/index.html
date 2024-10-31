@@ -66,8 +66,8 @@
         <div class="row">
             {% for data in destinations.object_list %}
                 <div class="col-md-4">
-                    <div class="card bg-body rounded shadow-sm p-2">
-                        <img src="{{data.img}}" class="card-img-top ps-2 pt-2" alt="...">
+                    <div class="card bg-body rounded shadow-sm p-2" >
+                        <img src="{{data.img}}" class="card-img-top ps-2 pt-2" alt="..." style="height: 30vh; width: 40vh;">
                         <div class="card-body">
                             <h5 class="card-title text-center">{{data.place_name}}</h5>
                             <p class="card-text">State: {{data.state}}</p>
